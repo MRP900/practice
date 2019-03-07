@@ -29,10 +29,6 @@ while True:
 	choice = input(
 		"Type 'a' to add entries to list, 'l' to list entries or 'e' to exit: ")
 	
-	
-
-	
-
 	if choice == 'a':
 		
 		while True:
@@ -45,10 +41,14 @@ while True:
 
 	elif choice == 'l':
 		with open('data.txt', 'r') as r:
+			line_count = 0
 			data = r.read()
-			print(data)
+			for line in data:
+				line_count+=1
+				print(line_count + " - " + line, end='')
 
 	else:
 		break 				
+
     						
 
