@@ -22,33 +22,71 @@
 # 	print(data)
 
 
+# List contents of specified file
+def list_entries(file):
+	with open(file, 'r') as r:
+		data = r.readlines()
+		for line in data:
+			print(line, end='')
 
+
+# Write
+def write_to_file(file):
+	line_count = 0
+	with open(file, 'a') as w:
+		line_count += 1
+		output = f"{line_count} - {entry}"
+		w.writelines(output)
+
+
+# Append
+
+
+def append_file(file, entry):
+	line_count = count_lines(file)
+	with open(file, 'a') as w:
+		line_count += 1
+		output = f"{line_count} - {entry} \n"
+		w.writelines(output)
+
+# Count number of lines in file
+
+
+def count_lines(file):
+	line_count = 0
+	with open(file, 'r') as w:
+		lines = w.readlines()
+		for line in lines:
+			line_count += 1
+	return line_count
 
 
 while True:
 	choice = input(
-		"Type 'a' to add entries to list, 'l' to list entries or 'e' to exit: ")
+		"Type 'a' to add entries to list, \n'l' to list entries, \n'd' to delete, \n'r' to replace, \nor 'e' to exit: ")
 	
 	if choice == 'a':
-		
 		while True:
 			entry = input("Enter a string or type 'exit': ")
 			if entry == 'exit':
 				break
 			else:
-				with open('data.txt', 'a') as w:
-					w.writelines(entry + "\n")
+				append_file('data.txt', entry)
 
 	elif choice == 'l':
-		with open('data.txt', 'r') as r:
-			line_count = 0
-			data = r.read()
+		list_entries('data.txt')
+	
+	elif choice == 'd':
+		with open('data.txt', "r+") as r:
+			data = r.readlines()
 			for line in data:
-				line_count+=1
-				print(line_count + " - " + line, end='')
+				if line.startswith(choice):
+					line.remove()
+			r.writelines(data)
 
+	# elif choice == 'r':
+	# 	# some code
+    					
 	else:
 		break 				
-
-    						
 
