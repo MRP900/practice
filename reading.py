@@ -1,3 +1,5 @@
+import csv
+
 # List contents of specified file
 def list_entries(file):
 	with open(file, 'r') as r:
@@ -52,3 +54,42 @@ def replace_line(file, line_to_find, replacement):
 		for item in final_list:
 			output = f"{item}\n"
 			f.writelines(output)
+
+#create inventory
+def make_inventory(file):
+	"""
+		make a copy of the main list, create an inventory that counts each lines
+		in list to dictionary, write to csv file
+	"""
+	list_data = []
+	with open(file, 'r') as file_in:
+		# remove \n from file_in items
+		lines = [line.strip() for line in file_in]
+		# create list of unique entries
+
+		# can't use this?
+		# entries = [entries.append(line) for line in lines if line not in entries]
+
+		entries = []
+		for line in lines:
+			if line not in entries:
+				entries.append(line)
+
+		for entry in entries:
+			count = lines.count(entry)
+			data = {}
+			data['Entry'] = entry
+			data['Quantity'] = lines.count(entry)
+			list_data.append(data)
+
+	# print(entries)
+	# print(lines)
+	# print(list_data)
+
+	with open('inventory.csv' , mode='w') as file_out:
+		fieldnames = ['Entry', 'Quantity']
+		writer = csv.DictWriter(file_out, fieldnames=fieldnames)
+
+		writer.writeheader()
+		for data in list_data:
+			writer.writerow(data)
